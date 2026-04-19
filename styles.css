@@ -7,7 +7,7 @@
 
 html, body {
   width: 100%;
-  height: 100%;
+  height: 100dvh;
   overflow: hidden;
   background: #000;
   font-family: 'Playpen Sans', 'cursive', 'sans-serif';
@@ -100,38 +100,35 @@ html, body {
 /* ── Fullscreen Button ────────────────────────────────────── */
 #fullscreen-btn {
   position: fixed;
-  bottom: 30px;
-  left: 30px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 200, 120, 0.3);
-  color: rgba(255, 210, 130, 0.7);
-  width: 42px;
-  height: 42px;
-  border-radius: 10px;
+  top: 20px;
+  left: 20px;
+  background: transparent;
+  border: 1px solid rgba(255, 190, 80, 0.25);
+  color: rgba(255, 200, 120, 0.45);
+  width: 34px;
+  height: 34px;
+  border-radius: 30%;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
+  transition: all 0.3s ease;
 }
 
 #fullscreen-btn svg {
-  width: 20px;
-  height: 20px;
+  width: 16px;
+  height: 16px;
 }
 
 #fullscreen-btn:hover {
-  color: rgba(255, 230, 180, 1);
-  border-color: rgba(255, 190, 80, 0.6);
-  background: rgba(255, 255, 255, 0.1);
-  transform: scale(1.05);
+  color: rgba(255, 210, 130, 0.9);
+  border-color: rgba(255, 190, 80, 0.55);
+  box-shadow: 0 0 10px rgba(255, 180, 60, 0.2);
 }
 
 #fullscreen-btn:active {
-  transform: scale(0.95);
+  transform: scale(0.92);
 }
 
 /* ── Lantern element ──────────────────────────────────────── */

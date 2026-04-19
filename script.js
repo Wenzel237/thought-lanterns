@@ -164,5 +164,5 @@ input.addEventListener('keydown', (e) => {
 });
 
 /* ── Boot ─────────────────────────────────────────────────── */
-seedAmbientStars(80);
+seedAmbientStars(10);
 input.focus();
