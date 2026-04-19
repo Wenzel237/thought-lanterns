@@ -19,6 +19,7 @@ html, body {
   position: fixed;
   inset: 0;
   pointer-events: none; /* clicks pass through to UI */
+  height: 100vh;
 }
 
 /* ── Input UI ─────────────────────────────────────────────── */
@@ -32,6 +33,7 @@ html, body {
   align-items: center;
   gap: 14px;
   z-index: 10;
+  background: transparent;
 }
 
 #hint {
@@ -95,6 +97,43 @@ html, body {
   box-shadow: 0 0 10px rgba(255, 180, 60, 0.2);
 }
 
+/* ── Fullscreen Button ────────────────────────────────────── */
+#fullscreen-btn {
+  position: fixed;
+  bottom: 30px;
+  left: 30px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 200, 120, 0.3);
+  color: rgba(255, 210, 130, 0.7);
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+#fullscreen-btn svg {
+  width: 20px;
+  height: 20px;
+}
+
+#fullscreen-btn:hover {
+  color: rgba(255, 230, 180, 1);
+  border-color: rgba(255, 190, 80, 0.6);
+  background: rgba(255, 255, 255, 0.1);
+  transform: scale(1.05);
+}
+
+#fullscreen-btn:active {
+  transform: scale(0.95);
+}
+
 /* ── Lantern element ──────────────────────────────────────── */
 .lantern {
   position: absolute;
@@ -115,7 +154,7 @@ html, body {
 .lantern-orb {
   width: 22px;
   height: 28px;
-  border-radius: 50% 50% 45% 45%;
+  border-radius: 20% 20% 20% 20%;
   background: radial-gradient(ellipse at 38% 35%,
     #ffe49a 0%,
     #ffb84d 45%,
@@ -163,8 +202,8 @@ html, body {
     opacity: 0.6;
   }
   100% {
-    opacity: 0;
-    transform: translateX(calc(-50% + var(--drift-end))) scale(0.08);
+    opacity: 0.2;
+    transform: translateX(calc(-50% + var(--drift-end))) scale(0.2);
     top: var(--target-y);
   }
 }

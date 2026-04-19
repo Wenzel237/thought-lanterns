@@ -15,7 +15,7 @@
 
   <!-- Input UI anchored at the bottom -->
   <div id="ui">
-    <p id="hint">release a thought into the sky</p>
+    <p id="hint">release a thought into the sky ✨</p>
     <div id="input-row">
       <input
         id="thought"
@@ -25,9 +25,15 @@
         autocomplete="off"
         spellcheck="false"
       />
-      <button id="send" aria-label="Release lantern">^</button>
+      <button id="send" aria-label="Release lantern">&#708;</button>
     </div>
   </div>
+
+  <button id="fullscreen-btn" aria-label="Toggle Fullscreen">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
+    </svg>
+  </button>
 
   <script src="script.js"></script>
 </body>

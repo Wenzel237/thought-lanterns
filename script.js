@@ -25,9 +25,9 @@ function seedAmbientStars(count = 80) {
   for (let i = 0; i < count; i++) {
     spawnStar(
       rand(1, 99) + '%',   // sx: spread across full width
-      rand(2, 75) + '%',   // sy: upper 75% of screen
+      rand(2, 99) + '%',   // sy: upper 75% of screen
       rand(0.3, 0.55),     // base opacity: dimmer ambient stars
-      rand(1, 2.5),        // size in px
+      rand(2, 5),        // size in px
       0                    // no appear delay needed for ambient
     );
   }
@@ -48,7 +48,7 @@ function spawnStar(sx, sy, baseOpacity, size, appearDelay) {
   star.style.setProperty('--twinkle-delay', rand(0, 4) + 's');
 
   /* Delay the appear animation if needed */
-  star.style.animationDelay = appearDelay + 's, ' + rand(0, 3) + 's';
+  // star.style.animationDelay = appearDelay + 's, ' + rand(0, 0) + 's';
 
   sky.appendChild(star);
 }
@@ -75,9 +75,9 @@ function releaseLantern(thought) {
   if (thought) lantern.appendChild(label);
 
   /* ── Position: start near bottom center with small random offset ── */
-  const startX   = clamp(rand(42, 58), 5, 95);   // % from left, near center
+  const startX   = clamp(rand(10, 90), 5, 95);   // % from left, near center
   const startY   = window.innerHeight * 0.82;     // 82% down the screen (px)
-  const targetY  = window.innerHeight * 0.06;     // 6% from top (px)
+  const targetY  = window.innerHeight * rand(0.10, 0.5); // 10% to 75% from top
 
   /* Gentle horizontal drift as it rises */
   const driftStart = rand(-8, 8) + 'px';
@@ -98,21 +98,21 @@ function releaseLantern(thought) {
 
   /* ── When the float animation ends, replace lantern with a star ── */
   lantern.addEventListener('animationend', () => {
+    /* Get the exact position of the orb before removing the lantern.
+       This ensures the star appears exactly where the orb was,
+       accounting for scaling, drift, and internal offsets. */
+    const orbRect = orb.getBoundingClientRect();
+    const finalX  = ((orbRect.left + orbRect.width / 2) / window.innerWidth) * 100;
+    const finalY  = ((orbRect.top + orbRect.height / 2) / window.innerHeight) * 100;
+
     /* Remove the lantern element */
     lantern.remove();
-
-    /* Calculate approximate final screen position as percentages.
-       The drift-end offset is a px value — convert to % of width. */
-    const driftPx  = parseFloat(driftEnd);
-    const finalXpx = (startX / 100) * window.innerWidth + driftPx;
-    const finalX   = clamp((finalXpx / window.innerWidth) * 100, 2, 98);
-    const finalY   = clamp((targetY  / window.innerHeight) * 100, 2, 40);
 
     spawnStar(
       finalX + '%',
       finalY + '%',
       rand(0.55, 0.85),   // slightly brighter — it was a thought
-      rand(1.5, 3),       // slightly larger than ambient stars
+      rand(5, 6),       // slightly larger than ambient stars
       0
     );
   });
@@ -134,8 +134,30 @@ function handleSubmit() {
   hint.style.opacity = '0';
 }
 
+const fullscreenBtn = document.getElementById('fullscreen-btn');
+
+/* ── Fullscreen Toggle ────────────────────────────────────── */
+function toggleFullscreen() {
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen().catch((err) => {
+      console.error(`Error attempting to enable fullscreen: ${err.message}`);
+    });
+  } else {
+    document.exitFullscreen();
+  }
+}
+
+/* ── Sync Fullscreen UI ──────────────────────────────────── */
+document.addEventListener('fullscreenchange', () => {
+  const isFS = !!document.fullscreenElement;
+  fullscreenBtn.innerHTML = isFS
+    ? `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14h6v6m10-6h-6v6M4 10h6V4m10 6h-6V4"></path></svg>`
+    : `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>`;
+});
+
 /* ── Event listeners ─────────────────────────────────────── */
 sendBtn.addEventListener('click', handleSubmit);
+fullscreenBtn.addEventListener('click', toggleFullscreen);
 
 input.addEventListener('keydown', (e) => {
   if (e.key === 'Enter') handleSubmit();
