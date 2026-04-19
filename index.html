@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lanterns</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Playpen+Sans:wght@100..800&display=swap" rel="stylesheet">
+
+</head>
+<body>
+
+  <!-- Sky canvas: lanterns and stars live here -->
+  <div id="sky"></div>
+
+  <!-- Input UI anchored at the bottom -->
+  <div id="ui">
+    <p id="hint">release a thought into the sky</p>
+    <div id="input-row">
+      <input
+        id="thought"
+        type="text"
+        maxlength="60"
+        placeholder="a quiet thought…"
+        autocomplete="off"
+        spellcheck="false"
+      />
+      <button id="send" aria-label="Release lantern">^</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

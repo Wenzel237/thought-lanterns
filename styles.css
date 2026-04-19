@@ -1,0 +1,209 @@
+/* ── Reset & base ─────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #000;
+  font-family: 'Playpen Sans', 'cursive', 'sans-serif';
+  color: #fff;
+}
+
+/* ── Sky: full-screen stage ───────────────────────────────── */
+#sky {
+  position: fixed;
+  inset: 0;
+  pointer-events: none; /* clicks pass through to UI */
+}
+
+/* ── Input UI ─────────────────────────────────────────────── */
+#ui {
+  position: fixed;
+  bottom: 48px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  z-index: 10;
+}
+
+#hint {
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  color: rgba(255, 220, 160, 0.35);
+  text-transform: lowercase;
+  user-select: none;
+  transition: opacity 0.6s ease;
+}
+
+#input-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#thought {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(255, 200, 120, 0.25);
+  outline: none;
+  color: rgba(255, 230, 180, 0.75);
+  font-family: inherit;
+  font-size: 14px;
+  letter-spacing: 0.08em;
+  width: 220px;
+  padding: 6px 2px;
+  caret-color: rgba(255, 200, 100, 0.7);
+  transition: border-color 0.4s ease;
+}
+
+#thought::placeholder {
+  color: rgba(255, 200, 120, 0.2);
+  font-style: italic;
+}
+
+#thought:focus {
+  border-bottom-color: rgba(255, 190, 80, 0.5);
+}
+
+#send {
+  background: transparent;
+  border: 1px solid rgba(255, 190, 80, 0.25);
+  color: rgba(255, 200, 120, 0.55);
+  font-size: 18px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  line-height: 1;
+}
+
+#send:hover {
+  color: rgba(255, 210, 130, 0.9);
+  border-color: rgba(255, 190, 80, 0.55);
+  box-shadow: 0 0 10px rgba(255, 180, 60, 0.2);
+}
+
+/* ── Lantern element ──────────────────────────────────────── */
+.lantern {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: none;
+
+  /* CSS custom props set by JS for per-lantern values */
+  left: var(--x);
+  top: var(--y);
+  transform: translateX(-50%);
+
+  animation: floatUp var(--duration) var(--delay) cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+/* The glowing orb */
+.lantern-orb {
+  width: 22px;
+  height: 28px;
+  border-radius: 50% 50% 45% 45%;
+  background: radial-gradient(ellipse at 38% 35%,
+    #ffe49a 0%,
+    #ffb84d 45%,
+    #e07b1a 100%
+  );
+  box-shadow:
+    0 0 12px 4px rgba(255, 180, 60, 0.55),
+    0 0 28px 10px rgba(255, 140, 30, 0.28),
+    0 0 50px 18px rgba(255, 120, 10, 0.12);
+  flex-shrink: 0;
+}
+
+/* Tiny string beneath the orb */
+.lantern-string {
+  width: 1px;
+  height: 7px;
+  background: rgba(255, 200, 120, 0.3);
+  margin-top: 1px;
+}
+
+/* The thought text label */
+.lantern-text {
+  margin-top: 6px;
+  font-size: 9.5px;
+  letter-spacing: 0.06em;
+  color: rgba(255, 230, 170, 0.65);
+  max-width: 120px;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  animation: textFade 2.8s ease forwards;
+}
+
+/* Float upward + shrink + drift */
+@keyframes floatUp {
+  0% {
+    opacity: 0;
+    transform: translateX(calc(-50% + var(--drift-start))) scale(1);
+  }
+  8% {
+    opacity: 1;
+  }
+  85% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(calc(-50% + var(--drift-end))) scale(0.08);
+    top: var(--target-y);
+  }
+}
+
+/* Text fades out earlier than the orb */
+@keyframes textFade {
+  0%   { opacity: 1; }
+  60%  { opacity: 0.4; }
+  100% { opacity: 0; }
+}
+
+/* ── Star element ─────────────────────────────────────────── */
+.star {
+  position: absolute;
+  width: var(--size);
+  height: var(--size);
+  border-radius: 50%;
+  background: #fff;
+  left: var(--sx);
+  top: var(--sy);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+
+  box-shadow:
+    0 0 2px 1px rgba(255, 255, 255, 0.6),
+    0 0 5px 2px rgba(255, 240, 200, 0.2);
+
+  animation:
+    starAppear 1.2s ease forwards,
+    twinkle var(--twinkle-dur) var(--twinkle-delay) ease-in-out infinite;
+}
+
+@keyframes starAppear {
+  from { opacity: 0; transform: translate(-50%, -50%) scale(3); }
+  to   { opacity: var(--base-opacity); transform: translate(-50%, -50%) scale(1); }
+}
+
+/* Subtle, slow twinkle — opacity pulses gently */
+@keyframes twinkle {
+  0%, 100% { opacity: var(--base-opacity); }
+  50%       { opacity: calc(var(--base-opacity) * 0.35); }
+}
