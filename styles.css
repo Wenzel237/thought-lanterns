@@ -149,8 +149,8 @@ html, body {
 
 /* The glowing orb */
 .lantern-orb {
-  width: 22px;
-  height: 28px;
+  width: 50px;
+  height: 60px;
   border-radius: 20% 20% 20% 20%;
   background: radial-gradient(ellipse at 38% 35%,
     #ffe49a 0%,
@@ -199,8 +199,8 @@ html, body {
     opacity: 0.6;
   }
   100% {
-    opacity: 0.2;
-    transform: translateX(calc(-50% + var(--drift-end))) scale(0.2);
+    opacity: 0;
+    transform: translateX(calc(-50% + var(--drift-end))) scale(0.05);
     top: var(--target-y);
   }
 }

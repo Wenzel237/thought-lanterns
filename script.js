@@ -25,9 +25,9 @@ function seedAmbientStars(count = 80) {
   for (let i = 0; i < count; i++) {
     spawnStar(
       rand(1, 99) + '%',   // sx: spread across full width
-      rand(2, 99) + '%',   // sy: upper 75% of screen
+      rand(2, 99) + '%',   // sy
       rand(0.3, 0.55),     // base opacity: dimmer ambient stars
-      rand(2, 5),        // size in px
+      rand(1, 2),        // size in px
       0                    // no appear delay needed for ambient
     );
   }
@@ -112,7 +112,7 @@ function releaseLantern(thought) {
       finalX + '%',
       finalY + '%',
       rand(0.55, 0.85),   // slightly brighter — it was a thought
-      rand(5, 6),       // slightly larger than ambient stars
+      rand(1, 4),       // slightly larger than ambient stars
       0
     );
   });
